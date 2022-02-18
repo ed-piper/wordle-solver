@@ -87,6 +87,7 @@ namespace WordleSolver
                 }
             }
 
+            //Next discard words with letters in proven incorrect positions
             foreach (var turn in turns)
             {
                 for (var i = 0; i < 5; i++)
@@ -99,11 +100,12 @@ namespace WordleSolver
             }
 
 
-            //Next discard words with letters in proven incorrect positions
+            //Favour words with no repeated letters over those with repeats
             var possibleNoRepeats = possibleWords.Where(x => !x.HasRepeats).OrderByDescending(x => x.Score).FirstOrDefault();
 
             if (possibleNoRepeats != null) return possibleNoRepeats;
 
+            //There are no words with no repeated letters, so return the top scoring of the remainder
             return possibleWords.OrderByDescending(x => x.Score).First();
         }
 
